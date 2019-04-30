@@ -1,0 +1,64 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+## Introduction
+
+Science generally uses math to cope with different problems. Thus, it is assumed that students’ science scores are positively related with their math scores. Furthermore, male students are recognized as being stronger in spatial skills than female ones. Therefore, it could be hypothesized that male students’ science score is higher when they have same math score with female students. 
+
+This study aims to examine the relationships between math scores and science scores of high school seniors. Furthermore, whether the relationship is moderated by gender is further explored.
+
+## Graphs and Descriptive Statistics 
+
+```{r}
+library(tidyverse)
+hsb2 <- read.csv("hsb2.csv")
+
+# First, set Moderator as factor
+gender <- factor(hsb2$female,
+                 levels = c("0", "1"),                    
+                 labels = c("male", "female"))
+count(hsb2, gender == "male")
+```
+
+There are 91 male students and 109 female students. 
+
+```{r}
+# Second, take a look at the graphs to have a breif idea about
+# interactions and relationships
+ggplot(subset(hsb2, gender == "male"| gender == "female"),
+       aes(x = math, y = science, color = gender)) +
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE) +
+  labs(title = "The influence of Math Scores on Science Scores by gender ",
+       caption = "Figure 1: The influence of Math Scores on Science Scores as moderated by gender")
+```
+
+Figure 1: The influence of Math Scores on Science Scores as moderated by gender.
+
+```{r}
+# Third, model interactions (IV & moderator) and DV
+Scimg <- lm(science ~ math + gender + math*gender, data = hsb2)
+summary(Scimg)
+confint(Scimg, 'math', level=0.95)
+confint(Scimg, 'genderfemale', level=0.95)
+confint(Scimg, 'math:genderfemale', level=0.95)
+```
+
+The confidence interval at 95% level for math is between 0.67936 and 0.08358.
+The confidence interval at 95% level for gender is between -12.77626 and 11.72578.
+The confidence interval at 95% level for gender*math is between -0.2601489 and 0.197766.
+                              
+##Conclusion
+
+Multiple linear regression is conducted to test the relationship and moderation effect. Results shows that math score has positive relationship with science score. However, gender does not moderate the relationships between students’ math score and their science score. 
+
+The regression formula is as follow:
+Science score = 0.68*math – 0.53*gender – 0.03*math *gender + 17.26
+We can conclude that with every point increase in math score, the students' science score increases by 0.68 points.
+
+  

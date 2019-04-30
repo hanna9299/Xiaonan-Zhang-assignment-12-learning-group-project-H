@@ -61,4 +61,4 @@ The regression formula is as follow:
 Science score = 0.68*math – 0.53*gender – 0.03*math *gender + 17.26
 We can conclude that with every point increase in math score, the students' science score increases by 0.68 points.
 
-  
+>**I would like to thank you for your lectures. I really learned a lot from this course. Can't imagine I never used R four months agao and now I rely on it so much. This course is a really good start for me. Now I'm confident in doing research analysis by independet studies. I really appreciate your help, Dr. Seaman! **  
